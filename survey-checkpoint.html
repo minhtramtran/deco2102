@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mid-Semester Checkpoint</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Work+Sans:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+  :root{
+    --bg: #FBF6EA;
+    --bg-panel: #FFFFFF;
+    --contour: #CFE8D3;
+    --contour-soft: #E4F3E6;
+    --cream: #1E3327;
+    --amber: #F79A2E;
+    --walked: #2FA84F;
+    --ink: #1E3327;
+    --muted: #6B8577;
+    --radius: 14px;
+  }
+
+  *{ box-sizing: border-box; }
+
+  html{ scroll-behavior: smooth; }
+
+  body{
+    margin:0;
+    min-height:100vh;
+    background: var(--bg);
+    color: var(--cream);
+    font-family: 'Work Sans', sans-serif;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding: 32px 20px;
+    position:relative;
+    overflow-x:hidden;
+  }
+
+  /* ambient contour rings */
+  .contours{
+    position:fixed;
+    inset:0;
+    z-index:0;
+    opacity:0.7;
+    pointer-events:none;
+  }
+
+  .page{
+    position:relative;
+    z-index:1;
+    width:100%;
+    max-width: 640px;
+  }
+
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    font-size:13px;
+    letter-spacing:0.14em;
+    color: var(--amber);
+    text-transform:uppercase;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom: 18px;
+  }
+
+  .eyebrow::before{
+    content:'';
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background: var(--amber);
+    flex-shrink:0;
+  }
+
+  /* --- elevation trail signature element --- */
+  .trail{
+    width:100%;
+    height:auto;
+    margin-bottom: 6px;
+  }
+
+  .trail-line{
+    fill:none;
+    stroke: var(--contour);
+    stroke-width:2.5;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+  }
+
+  .trail-line.walked{
+    stroke: var(--walked);
+  }
+
+  .you-are-here-dot{
+    fill: var(--amber);
+  }
+
+  @media (prefers-reduced-motion: no-preference){
+    .you-are-here-pulse{
+      animation: pulse 2.6s ease-in-out infinite;
+      transform-origin: center;
+    }
+  }
+
+  @keyframes pulse{
+    0%, 100% { opacity: 0.55; transform: scale(1); }
+    50% { opacity: 0; transform: scale(2.4); }
+  }
+
+  .trail-labels{
+    display:flex;
+    justify-content:space-between;
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    color: var(--muted);
+    letter-spacing:0.04em;
+    margin-bottom: 40px;
+    padding: 0 2px;
+  }
+
+  .trail-labels .here{
+    color: var(--amber);
+    font-weight:500;
+  }
+
+  h1{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    font-size: clamp(30px, 5.2vw, 44px);
+    line-height:1.08;
+    margin: 0 0 16px 0;
+    letter-spacing: -0.01em;
+  }
+
+  h1 span{ color: var(--amber); }
+
+  .sub{
+    font-size:16px;
+    line-height:1.55;
+    color: var(--muted);
+    max-width: 46ch;
+    margin: 0 0 40px 0;
+  }
+
+  .checkpoint-card{
+    background: var(--bg-panel);
+    border: 1px solid var(--contour-soft);
+    border-radius: var(--radius);
+    padding: 32px;
+    display:flex;
+    gap: 28px;
+    align-items:center;
+    flex-wrap:wrap;
+  }
+
+  .badge{
+    flex-shrink:0;
+    width: 168px;
+    height: 168px;
+    border-radius: 50%;
+    background: #FFFFFF;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+    border: 2px dashed var(--amber);
+    padding: 14px;
+  }
+
+  .badge::after{
+    content:'';
+    position:absolute;
+    inset: -10px;
+    border-radius:50%;
+    border: 1px solid var(--contour-soft);
+  }
+
+  #qrcode{
+    width:100% !important;
+    height:100% !important;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    overflow:hidden;
+  }
+
+  #qrcode img, #qrcode canvas{
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 6px;
+  }
+
+  .checkpoint-meta{
+    flex: 1;
+    min-width: 200px;
+  }
+
+  .checkpoint-meta .label{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    font-size: 19px;
+    margin-bottom: 10px;
+    color: var(--cream);
+  }
+
+  .meta-row{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:12.5px;
+    color: var(--muted);
+    margin-bottom:6px;
+  }
+
+  .meta-row svg{ flex-shrink:0; opacity:0.8; }
+
+  .footnote{
+    margin-top: 28px;
+    font-size: 13px;
+    color: var(--muted);
+    text-align:center;
+  }
+
+  a.footnote-link{
+    color: var(--amber);
+    text-decoration: underline;
+    text-decoration-color: var(--contour-soft);
+    text-underline-offset: 3px;
+  }
+
+  a.footnote-link:focus-visible,
+  #qrcode:focus-visible{
+    outline: 2px solid var(--amber);
+    outline-offset: 3px;
+  }
+
+  @media (max-width: 480px){
+    .checkpoint-card{ padding:24px; justify-content:center; text-align:center; flex-direction:column; }
+    .checkpoint-meta{ text-align:center; }
+    .meta-row{ justify-content:center; }
+  }
+</style>
+</head>
+<body>
+
+<svg class="contours" preserveAspectRatio="xMidYMid slice" viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg">
+  <g fill="none" stroke="#CFE8D3" stroke-width="1">
+    <ellipse cx="600" cy="120" rx="420" ry="220"/>
+    <ellipse cx="600" cy="120" rx="330" ry="170"/>
+    <ellipse cx="600" cy="120" rx="240" ry="120"/>
+    <ellipse cx="120" cy="720" rx="380" ry="200"/>
+    <ellipse cx="120" cy="720" rx="290" ry="150"/>
+    <ellipse cx="120" cy="720" rx="200" ry="100"/>
+  </g>
+</svg>
+
+<main class="page">
+
+  <p class="eyebrow">Week 8 of 15 · Mid-semester checkpoint</p>
+
+  <svg class="trail" viewBox="0 0 600 90" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Semester progress trail, currently at the week 8 midpoint checkpoint">
+    <path class="trail-line" d="M0,70 C40,70 50,20 90,20 C130,20 140,55 180,55 C220,55 235,10 270,10 L300,35" />
+    <path class="trail-line walked" d="M0,70 C40,70 50,20 90,20 C130,20 140,55 180,55 C220,55 235,10 270,10 L300,35" pathLength="1" stroke-dasharray="1" stroke-dashoffset="0" />
+    <path class="trail-line" d="M300,35 C330,55 345,15 380,15 C415,15 425,60 460,60 C495,60 510,25 545,25 L600,45" opacity="0.55"/>
+    <circle class="you-are-here-pulse" cx="300" cy="35" r="6" fill="var(--amber)" opacity="0.55"/>
+    <circle class="you-are-here-dot" cx="300" cy="35" r="6"/>
+  </svg>
+
+  <div class="trail-labels">
+    <span>Week 1</span>
+    <span class="here">📍 You are here</span>
+    <span>Week 15</span>
+  </div>
+
+  <h1>You've reached the <span>midpoint.</span></h1>
+  <p class="sub">A few honest minutes from you now shapes how the back half of the semester goes. Scan the marker below to check in — anonymously.</p>
+
+  <div class="checkpoint-card">
+    <div class="badge">
+      <div id="qrcode" tabindex="0" aria-label="QR code linking to the mid-semester survey"></div>
+    </div>
+    <div class="checkpoint-meta">
+      <div class="label">Scan to check in</div>
+      <div class="meta-row">⏱ &nbsp;About 3 minutes</div>
+      <div class="meta-row">🕶 &nbsp;Anonymous responses</div>
+      <div class="meta-row">🚩 &nbsp;Open through Friday</div>
+    </div>
+  </div>
+
+  <p class="footnote">Prefer typing it in? <a class="footnote-link" href="#" id="fallback-link">Open the survey link</a> instead.</p>
+
+</main>
+
+<script>
+  // ---------------------------------------------------------------------
+  // PLACEHOLDER LINK — replace this with your real survey URL
+  // (Google Form / Microsoft Form / Qualtrics / etc.) before sharing.
+  // ---------------------------------------------------------------------
+  const SURVEY_URL = "https://forms.gle/REPLACE-WITH-YOUR-SURVEY-LINK";
+
+  document.getElementById("fallback-link").href = SURVEY_URL;
+
+  new QRCode(document.getElementById("qrcode"), {
+    text: SURVEY_URL,
+    width: 400,
+    height: 400,
+    colorDark: "#1E3327",
+    colorLight: "#FFFFFF",
+    correctLevel: QRCode.CorrectLevel.M
+  });
+</script>
+
+</body>
+</html>
