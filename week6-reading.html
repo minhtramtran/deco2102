@@ -1,0 +1,326 @@
+<!DOCTYPE html><html class="light" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>WEEK 06: VISUAL COMPLEXITY</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,400..900;1,400..900&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface": "#1b1c17",
+                        "on-primary-container": "#ffcdc3",
+                        "on-primary-fixed": "#3d0500",
+                        "outline": "#8f7069",
+                        "surface-variant": "#e4e3db",
+                        "on-tertiary-fixed": "#2d0050",
+                        "inverse-primary": "#ffb4a4",
+                        "secondary-fixed": "#b9f60a",
+                        "on-tertiary-container": "#eaceff",
+                        "on-tertiary": "#ffffff",
+                        "outline-variant": "#e4beb6",
+                        "paper-white": "#fbf9f1",
+                        "on-secondary-fixed": "#141f00",
+                        "on-secondary-container": "#4f6c00",
+                        "background": "#fbf9f1",
+                        "secondary-fixed-dim": "#a1d800",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface-variant": "#5b403a",
+                        "acid-green": "#b6f300",
+                        "on-secondary": "#ffffff",
+                        "primary-fixed": "#ffdad3",
+                        "primary-container": "#b72301",
+                        "on-error-container": "#93000a",
+                        "on-primary": "#ffffff",
+                        "tertiary": "#680dac",
+                        "surface-container-highest": "#e4e3db",
+                        "secondary": "#4c6700",
+                        "primary-fixed-dim": "#ffb4a4",
+                        "inverse-on-surface": "#f3f1e9",
+                        "on-primary-fixed-variant": "#8c1800",
+                        "primary": "#8c1800",
+                        "pure-white": "#ffffff",
+                        "surface-container-high": "#eae8e0",
+                        "error-container": "#ffdad6",
+                        "secondary-container": "#b6f301",
+                        "on-tertiary-fixed-variant": "#680dac",
+                        "surface-container": "#f0eee6",
+                        "on-error": "#ffffff",
+                        "surface-bright": "#fbf9f1",
+                        "error": "#ba1a1a",
+                        "tertiary-container": "#8234c6",
+                        "tertiary-fixed-dim": "#deb7ff",
+                        "surface-tint": "#b72301",
+                        "surface": "#fbf9f1",
+                        "on-secondary-fixed-variant": "#384e00",
+                        "surface-dim": "#dcdad2",
+                        "surface-container-low": "#f6f4ec",
+                        "inverse-surface": "#30312c",
+                        "blood-orange": "#b72301",
+                        "tertiary-fixed": "#f1dbff",
+                        "ink-black": "#1b1c17",
+                        "on-background": "#1b1c17"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "gutter": "24px",
+                        "stack-gap": "32px",
+                        "margin-desktop": "48px",
+                        "unit": "8px"
+                    },
+                    "fontFamily": {
+                        "display-xl-mobile": ["Hanken Grotesk"],
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "display-xl": ["Hanken Grotesk"],
+                        "body-md": ["Hanken Grotesk"],
+                        "label-caps": ["Hanken Grotesk"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "body-lg": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "display-xl-mobile": ["64px", { "lineHeight": "60px", "letterSpacing": "-0.04em", "fontWeight": "900" }],
+                        "headline-lg-mobile": ["32px", { "lineHeight": "36px", "fontWeight": "800" }],
+                        "display-xl": ["120px", { "lineHeight": "100px", "letterSpacing": "-0.04em", "fontWeight": "900" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-caps": ["14px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "900" }],
+                        "headline-lg": ["48px", { "lineHeight": "52px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "body-lg": ["20px", { "lineHeight": "30px", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .texture-bg {
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.16'/%3E%3C/svg%3E");
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 1, 'wght' 700, 'GRAD' 0, 'opsz' 48;
+        }
+        .btn-shadow {
+            box-shadow: 8px 8px 0px 0px #1b1c17;
+            transition: all 0.1s ease;
+        }
+        .btn-shadow:active {
+            transform: translate(6px, 6px);
+            box-shadow: 2px 2px 0px 0px #1b1c17;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md texture-bg min-h-screen selection:bg-secondary-container selection:text-on-surface">
+<main class="w-full max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop py-12 relative overflow-hidden">
+<!-- Experiment Note -->
+<p class="font-body-md text-body-md italic text-on-surface-variant max-w-3xl mb-8 pb-6 border-b-2 border-dashed border-outline relative z-10">
+                We're changing the visual design of this page each week to make the reading feel a bit more engaging, while keeping the content structure consistent. This week's theme is <span class="font-bold not-italic">Neo-Brutalism</span> — a style that uses raw, high-contrast layouts, thick black borders, and hard block shadows instead of soft gradients or rounded corners, mixed with a "Zine" aesthetic of tilted post-its and Xerox-style noise texture.
+            </p>
+<!-- Background Noise/Decorations -->
+<div class="absolute top-10 right-10 z-0 opacity-10 transform rotate-12">
+<span class="material-symbols-outlined text-[200px]">visibility</span>
+</div>
+<!-- Header Section -->
+<header class="relative z-10 mb-stack-gap flex flex-col md:flex-row justify-between items-start md:items-end gap-6 border-b-4 border-on-surface pb-6">
+<div class="flex flex-col">
+<div class="inline-block bg-primary text-on-primary font-label-caps text-label-caps px-2 py-1 mb-4 w-max uppercase transform -rotate-2">
+                    WEEK 06 READING</div>
+<h1 class="font-display-xl-mobile md:font-display-xl text-display-xl-mobile md:text-display-xl uppercase max-w-4xl text-primary">
+                    HELLO, DESIGNERS.
+                </h1>
+<p class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg uppercase mt-4 max-w-2xl bg-on-surface text-surface px-4 py-2 transform rotate-1">
+                    FIRST IMPRESSIONS HAPPEN FAST.<br>UNDERSTAND THE AESTHETIC JUDGEMENT.
+                </p>
+</div>
+<!-- Stickers -->
+<div class="flex gap-4 self-end shrink-0">
+
+
+</div>
+</header>
+<!-- Main Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter relative z-10">
+<!-- Primary Reading Card (Spans 8 cols) -->
+<article class="col-span-1 md:col-span-8 bg-pure-white border-4 border-on-surface p-6 md:p-8 relative shadow-[8px_8px_0px_0px_rgba(27,28,23,1)] group">
+<div class="absolute top-0 right-0 bg-secondary-container text-on-surface font-label-caps text-label-caps px-3 py-1 border-b-4 border-l-4 border-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">book</span> REQUIRED READING
+                </div>
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg uppercase mt-8 mb-4">
+                    The role of visual complexity and prototypicality regarding first impression of websites
+                </h2>
+<p class="font-label-caps text-label-caps text-on-surface-variant mb-2 uppercase">
+                    Tuch, Presslaber, Stöcklin, Heinz &amp; Opwis (2012)
+                </p>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6">
+                    Originally published by <a href="https://research.google/pubs/the-role-of-visual-complexity-and-prototypicality-regarding-first-impression-of-websites-working-towards-understanding-aesthetic-judgments/" target="_blank" rel="noopener" class="underline font-bold text-on-surface hover:text-primary">Google Research</a> — annotated copy provided below.
+                </p>
+<div class="bg-surface-variant p-4 md:p-6 border-l-4 border-primary mb-8 transform -rotate-1">
+<p class="font-body-lg text-body-lg italic font-bold">
+                        "How fast do we judge? In 17 milliseconds, users decide if they stay or go. We are deconstructing the science of the 'first impression' through the lens of complexity and prototypicality."
+                    </p>
+</div>
+<button class="w-full md:w-auto bg-primary text-on-primary font-label-caps text-label-caps px-8 py-4 border-4 border-on-surface btn-shadow uppercase flex justify-center items-center gap-2">
+                    DOWNLOAD PDF <span class="material-symbols-outlined">download</span>
+</button>
+</article>
+<!-- Secondary Actions (Spans 4 cols) -->
+<div class="col-span-1 md:col-span-4 flex flex-col gap-gutter">
+<!-- Action 1 -->
+<div class="bg-secondary-container border-4 border-on-surface p-6 shadow-[8px_8px_0px_0px_rgba(27,28,23,1)] hover:-translate-y-1 hover:-translate-x-1 transition-transform cursor-pointer">
+<h3 class="text-3xl md:text-4xl font-black uppercase mb-2 leading-none break-words">
+                        PROTOTYPICALITY
+                    </h3>
+<p class="font-body-md text-body-md mb-4">What does a user expect? Defy it at your own peril.</p>
+<span class="material-symbols-outlined text-4xl">psychology</span>
+</div>
+<!-- Action 2 -->
+<div class="bg-surface-dim border-4 border-on-surface p-6 shadow-[8px_8px_0px_0px_rgba(27,28,23,1)] hover:-translate-y-1 hover:-translate-x-1 transition-transform cursor-pointer overflow-hidden relative">
+<svg class="absolute inset-0 w-full h-full pointer-events-none opacity-25" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" font-family="monospace" stroke="#1b1c17" fill="#1b1c17">
+  <text x="14" y="20" font-size="10" letter-spacing="1">WEEK 06:</text>
+  <text x="14" y="32" font-size="10" letter-spacing="1">VISUAL COMPLEXITY</text>
+  <text x="14" y="44" font-size="10" letter-spacing="1">DASHBOARD</text>
+
+  <g fill="none" stroke-width="1">
+    <rect x="20" y="60" width="60" height="70"/>
+    <line x1="20" y1="60" x2="80" y2="130"/>
+    <line x1="80" y1="60" x2="20" y2="130"/>
+    <rect x="90" y="60" width="90" height="18"/>
+    <rect x="90" y="84" width="60" height="10"/>
+    <rect x="90" y="98" width="70" height="10"/>
+    <rect x="190" y="60" width="90" height="60"/>
+    <line x1="200" y1="100" x2="215" y2="75" />
+    <line x1="215" y1="75" x2="230" y2="105" />
+    <line x1="230" y1="105" x2="245" y2="70" />
+    <line x1="245" y1="70" x2="260" y2="95" />
+    <line x1="260" y1="95" x2="275" y2="80" />
+    <rect x="290" y="55" width="95" height="75"/>
+    <rect x="300" y="65" width="30" height="8"/>
+    <rect x="300" y="78" width="45" height="8"/>
+    <rect x="300" y="91" width="20" height="8"/>
+  </g>
+
+  <text x="20" y="150" font-size="9">SYSTEM OVERLOAD</text>
+  <g fill="#1b1c17" stroke="none">
+    <circle cx="30" cy="175" r="3"/><circle cx="42" cy="175" r="3"/><circle cx="54" cy="175" r="3"/><circle cx="66" cy="175" r="3"/>
+    <circle cx="24" cy="187" r="3"/><circle cx="36" cy="187" r="4.5"/><circle cx="48" cy="187" r="6"/><circle cx="60" cy="187" r="4.5"/><circle cx="72" cy="187" r="3"/>
+    <circle cx="30" cy="199" r="3"/><circle cx="42" cy="199" r="4.5"/><circle cx="54" cy="199" r="4.5"/><circle cx="66" cy="199" r="3"/>
+    <circle cx="36" cy="211" r="3"/><circle cx="48" cy="211" r="3"/><circle cx="60" cy="211" r="3"/>
+  </g>
+
+  <g fill="none" stroke-width="1">
+    <rect x="100" y="150" width="140" height="60"/>
+    <line x1="100" y1="165" x2="240" y2="165"/>
+    <line x1="100" y1="180" x2="240" y2="180"/>
+    <line x1="100" y1="195" x2="240" y2="195"/>
+    <line x1="130" y1="150" x2="130" y2="210"/>
+    <line x1="160" y1="150" x2="160" y2="210"/>
+    <line x1="190" y1="150" x2="190" y2="210"/>
+    <line x1="220" y1="150" x2="220" y2="210"/>
+  </g>
+  <text x="100" y="222" font-size="8">TRAFFIC FLOW</text>
+
+  <g fill="none" stroke-width="1">
+    <circle cx="300" cy="170" r="6"/>
+    <circle cx="335" cy="150" r="6"/>
+    <circle cx="360" cy="185" r="6"/>
+    <circle cx="320" cy="205" r="6"/>
+    <line x1="300" y1="170" x2="335" y2="150"/>
+    <line x1="335" y1="150" x2="360" y2="185"/>
+    <line x1="360" y1="185" x2="320" y2="205"/>
+    <line x1="320" y1="205" x2="300" y2="170"/>
+  </g>
+  <text x="290" y="225" font-size="8">TRAFFIC FLOW</text>
+
+  <text x="20" y="245" font-size="8">DATA STREAM // ERR_7</text>
+  <rect x="20" y="252" width="200" height="1"/>
+  <text x="20" y="264" font-size="8">NODE MAP</text>
+  <g fill="none" stroke-width="1">
+    <circle cx="30" cy="285" r="4"/>
+    <circle cx="60" cy="300" r="4"/>
+    <circle cx="45" cy="315" r="4"/>
+    <line x1="30" y1="285" x2="60" y2="300"/>
+    <line x1="60" y1="300" x2="45" y2="315"/>
+  </g>
+
+  <g fill="none" stroke-width="1">
+    <rect x="230" y="240" width="150" height="90"/>
+    <line x1="250" y1="290" x2="265" y2="260" />
+    <line x1="265" y1="260" x2="280" y2="300" />
+    <line x1="280" y1="300" x2="295" y2="250" />
+    <line x1="295" y1="250" x2="310" y2="285" />
+    <line x1="310" y1="285" x2="325" y2="270" />
+    <line x1="325" y1="270" x2="340" y2="295" />
+    <line x1="340" y1="295" x2="360" y2="255" />
+  </g>
+  <text x="330" y="255" font-size="8">TRAFFIC FLOW</text>
+</svg>
+<div class="relative z-10">
+<h3 class="text-3xl md:text-4xl font-black uppercase mb-2 leading-none break-words">
+                            COMPLEXITY
+                        </h3>
+<p class="font-body-md text-body-md mb-4">Visual load. Less is more until it isn't.</p>
+<span class="material-symbols-outlined text-4xl">blur_on</span>
+</div>
+</div>
+</div>
+<!-- The Void Section (Full Width) -->
+<section class="col-span-1 md:col-span-12 mt-stack-gap border-4 border-on-surface bg-inverse-surface text-surface p-6 md:p-12 relative shadow-[12px_12px_0px_0px_rgba(27,28,23,1)]">
+<div class="absolute -top-6 -left-6 bg-primary text-on-primary px-4 py-2 font-label-caps text-label-caps border-4 border-on-surface transform -rotate-6 z-20 flex gap-2 items-center">
+<span class="material-symbols-outlined">forum</span>SHORT!!!!</div>
+<div class="text-center max-w-3xl mx-auto mt-6 mb-12">
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg uppercase mb-4 text-secondary-container">
+                    INTERESTING SNIPPETS</h2>
+
+</div>
+<!-- Post-it Collaborative Space -->
+<div class="border-2 border-dashed border-surface-variant p-4 md:p-8 bg-on-surface">
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10 place-items-center">
+<!-- Post-it 1 -->
+<div class="w-56 h-56 bg-secondary-container text-on-surface border-2 border-on-surface p-4 shadow-[4px_4px_0px_0px_rgba(27,28,23,1)] transform transition-all duration-200 ease-out hover:rotate-0 hover:-translate-y-2 hover:shadow-[8px_8px_0px_0px_rgba(27,28,23,1)] cursor-pointer rotate-3 relative">
+    <p class="font-body-md font-bold uppercase">17 milliseconds. That's enough.</p>
+    <p class="text-sm mt-2">People were influenced by a website's visual complexity and prototypicality after just 17 ms of exposure.</p>
+    <span class="material-symbols-outlined absolute bottom-2 right-2 opacity-50">push_pin</span>
+</div>
+
+<!-- Post-it 2 -->
+<div class="w-56 h-56 bg-primary-container text-on-primary border-2 border-on-surface p-4 shadow-[4px_4px_0px_0px_rgba(27,28,23,1)] transform transition-all duration-200 ease-out hover:rotate-0 hover:-translate-y-2 hover:shadow-[8px_8px_0px_0px_rgba(27,28,23,1)] cursor-pointer -rotate-2 relative">
+    <p class="font-body-md font-bold uppercase">We judge before we use.</p>
+    <p class="text-sm mt-2">A first impression can form from simply seeing a screenshot — before clicking, scrolling or completing a task.</p>
+    <span class="material-symbols-outlined absolute bottom-2 right-2 opacity-50">push_pin</span>
+</div>
+
+<!-- Post-it 3 -->
+<div class="w-56 h-56 bg-surface-variant text-on-surface border-2 border-on-surface p-4 shadow-[4px_4px_0px_0px_rgba(27,28,23,1)] transform transition-all duration-200 ease-out hover:rotate-0 hover:-translate-y-2 hover:shadow-[8px_8px_0px_0px_rgba(27,28,23,1)] cursor-pointer rotate-1 relative">
+    <p class="font-body-md font-bold uppercase">More visual complexity ≠ more appealing.</p>
+    <p class="text-sm mt-2">In these studies, more visually complex websites generally received lower beauty ratings.</p>
+    <span class="material-symbols-outlined absolute bottom-2 right-2 opacity-50">push_pin</span>
+</div>
+
+<!-- Post-it 4 -->
+<div class="w-56 h-56 bg-acid-green text-on-secondary-fixed border-2 border-on-surface p-4 shadow-[4px_4px_0px_0px_rgba(27,28,23,1)] transform transition-all duration-200 ease-out hover:rotate-0 hover:-translate-y-2 hover:shadow-[8px_8px_0px_0px_rgba(27,28,23,1)] cursor-pointer -rotate-6 relative">
+    <p class="font-body-md font-bold uppercase">Familiar can feel better.</p>
+    <p class="text-sm mt-2">Participants tended to prefer company websites that looked more like what they expected (prototypicality).</p>
+    <span class="material-symbols-outlined absolute bottom-2 right-2 opacity-50">push_pin</span>
+</div>
+
+<!-- Post-it 5 -->
+<div class="w-56 h-56 bg-secondary-container text-on-surface border-2 border-on-surface p-4 shadow-[4px_4px_0px_0px_rgba(27,28,23,1)] transform transition-all duration-200 ease-out hover:rotate-0 hover:-translate-y-2 hover:shadow-[8px_8px_0px_0px_rgba(27,28,23,1)] cursor-pointer rotate-2 relative">
+    <p class="font-body-md font-bold uppercase">Complexity hits first. Familiarity catches up.</p>
+    <p class="text-sm mt-2">At the shortest exposure time, visual complexity had a stronger effect than prototypicality.</p>
+    <span class="material-symbols-outlined absolute bottom-2 right-2 opacity-50">push_pin</span>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+
+
+</body></html>
