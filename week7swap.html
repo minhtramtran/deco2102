@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Move It, Move It! — Find Your Room</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Baloo+2:wght@600;700;800&family=Quicksand:wght@500;600;700&family=Space+Mono:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --jungle:#0b3d2e;
+    --jungle-2:#0f5240;
+    --jungle-3:#12603f;
+    --lime:#c9f31d;
+    --pink:#ff3d81;
+    --sunset:#ff8c1a;
+    --cream:#fff6e0;
+    --ink:#062017;
+    --muted:#a9d9c4;
+    --font-display:'Baloo 2', sans-serif;
+    --font-round:'Fredoka', sans-serif;
+    --font-body:'Quicksand', sans-serif;
+    --font-mono:'Space Mono', monospace;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--jungle);
+    color:var(--cream);
+    font-family:var(--font-body);
+    font-weight:600;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    padding-bottom:40px;
+    overflow-x:hidden;
+    position:relative;
+  }
+  ::selection{background:var(--lime); color:var(--ink);}
+  :focus-visible{outline:3px solid var(--lime); outline-offset:3px; border-radius:4px;}
+
+  /* ambient jungle leaves */
+  .leaf{
+    position:fixed;
+    opacity:0.10;
+    pointer-events:none;
+    z-index:0;
+  }
+  .leaf svg{width:100%; height:100%; display:block;}
+
+  /* stripe bands */
+  .stripe-band{
+    height:10px;
+    background:repeating-linear-gradient(
+      -45deg,
+      var(--lime) 0 14px,
+      var(--jungle) 14px 28px
+    );
+  }
+
+  /* header */
+  .site-header{
+    padding:18px 20px 14px;
+    text-align:center;
+    position:relative;
+    z-index:1;
+  }
+  .brand{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-family:var(--font-mono);
+    font-size:11px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--muted);
+  }
+  .brand .dot{
+    width:8px;height:8px;border-radius:50%;
+    background:var(--sunset);
+    box-shadow:0 0 10px var(--sunset);
+    animation:pulse 1.4s ease-in-out infinite;
+  }
+  @keyframes pulse{50%{transform:scale(1.4); opacity:0.6;}}
+
+  /* hero */
+  .hero{
+    max-width:640px;
+    margin:0 auto;
+    padding:34px 20px 6px;
+    text-align:center;
+    position:relative;
+    z-index:1;
+  }
+  h1{
+    font-family:var(--font-display);
+    font-weight:800;
+    font-size:clamp(38px, 10vw, 62px);
+    line-height:0.98;
+    margin:0 0 6px;
+    color:var(--lime);
+    text-shadow:3px 3px 0 var(--pink);
+    letter-spacing:0.01em;
+  }
+  h1 .wiggle{
+    display:inline-block;
+    animation:wiggle 2.4s ease-in-out infinite;
+    transform-origin:60% 70%;
+  }
+  @keyframes wiggle{
+    0%,100%{transform:rotate(-4deg);}
+    50%{transform:rotate(6deg);}
+  }
+  .subhead{
+    font-family:var(--font-round);
+    font-weight:600;
+    color:var(--sunset);
+    font-size:17px;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    margin:0 0 16px;
+    line-height:1.5;
+  }
+  .lede{
+    color:var(--cream);
+    opacity:0.9;
+    font-size:16px;
+    max-width:42ch;
+    margin:0 auto 28px;
+    font-weight:600;
+  }
+
+  /* time-slot groups */
+  .slots{
+    max-width:640px;
+    margin:0 auto;
+    padding:0 20px;
+    position:relative;
+    z-index:1;
+  }
+  .slot-group{margin-bottom:32px;}
+  .slot-title{
+    font-family:var(--font-round);
+    font-weight:600;
+    font-size:14px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--jungle);
+    background:var(--lime);
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:6px 14px;
+    border-radius:999px;
+    margin-bottom:14px;
+    transform:rotate(-1.5deg);
+  }
+  .slot-group:nth-child(2) .slot-title{background:var(--pink); color:var(--cream); transform:rotate(1.5deg);}
+  .slot-group:nth-child(3) .slot-title{background:var(--sunset); color:var(--ink); transform:rotate(-1.5deg);}
+
+  .tile-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(108px, 1fr));
+    gap:12px;
+  }
+  .tut-tile{
+    background:var(--jungle-2);
+    border:3px solid var(--jungle-3);
+    border-radius:14px;
+    padding:14px 8px;
+    font-family:var(--font-mono);
+    color:var(--cream);
+    text-align:center;
+    cursor:pointer;
+    -webkit-tap-highlight-color:transparent;
+    transition:transform .18s cubic-bezier(.34,1.56,.64,1), border-color .15s ease, background .15s ease;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:2px;
+  }
+  .tut-tile .tile-label{
+    font-size:10px;
+    font-weight:700;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    opacity:0.7;
+  }
+  .tut-tile .tile-num{
+    font-size:22px;
+    font-weight:700;
+  }
+  .tut-tile.is-active .tile-label{opacity:0.85;}
+  .tut-tile:hover{
+    border-color:var(--lime);
+    transform:translateY(-4px) rotate(-2deg);
+  }
+  .tut-tile:active{transform:scale(0.94) rotate(0deg);}
+  .tut-tile.is-active{
+    border-color:var(--lime);
+    background:var(--lime);
+    color:var(--ink);
+    transform:translateY(-4px) rotate(2deg);
+  }
+
+  .hint{
+    text-align:center;
+    color:var(--lime);
+    font-size:22px;
+    font-family:var(--font-body);
+    font-weight:700;
+    margin:6px 20px 26px;
+  }
+
+  /* bottom sheet */
+  .scrim{
+    position:fixed; inset:0;
+    background:rgba(3,15,10,0.7);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .25s ease;
+    z-index:90;
+  }
+  .scrim.is-open{opacity:1; pointer-events:auto;}
+
+  .sheet{
+    position:fixed;
+    left:0; right:0; bottom:0;
+    max-width:640px;
+    margin:0 auto;
+    background:var(--jungle-2);
+    border:4px solid var(--lime);
+    border-bottom:none;
+    border-radius:28px 28px 0 0;
+    padding:10px 22px 30px;
+    transform:translateY(100%);
+    transition:transform .38s cubic-bezier(.2,.9,.25,1.1);
+    z-index:95;
+    max-height:88vh;
+    overflow-y:auto;
+  }
+  .sheet.is-open{transform:translateY(0);}
+
+  .sheet-grabber{
+    width:46px; height:5px;
+    background:var(--muted);
+    opacity:0.4;
+    border-radius:3px;
+    margin:8px auto 16px;
+  }
+  .sheet-close{
+    position:absolute;
+    top:16px; right:18px;
+    background:var(--jungle-3);
+    border:none;
+    color:var(--cream);
+    font-family:var(--font-mono);
+    font-size:20px;
+    line-height:1;
+    cursor:pointer;
+    padding:6px 12px;
+    border-radius:999px;
+  }
+  .sheet-close:hover{background:var(--pink);}
+
+  .sheet-eyebrow{
+    font-family:var(--font-mono);
+    font-size:11px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--muted);
+    margin-bottom:4px;
+  }
+  .sheet-title{
+    font-family:var(--font-display);
+    font-weight:800;
+    font-size:32px;
+    line-height:1.05;
+    margin-bottom:6px;
+    color:var(--lime);
+  }
+
+
+  /* conga line path */
+  .conga{
+    width:100%;
+    height:64px;
+    margin-bottom:10px;
+  }
+  .conga-dot{
+    animation:conga-move 2.6s linear infinite;
+  }
+  @keyframes conga-move{
+    to{ offset-distance:100%; }
+  }
+  .conga-path-dot{
+    offset-path:path('M10,32 C 90,4 180,60 280,32 S 470,4 590,32');
+    offset-rotate:0deg;
+    animation:conga-move 2.6s linear infinite;
+  }
+  @media (prefers-reduced-motion: reduce){
+    .conga-path-dot{animation:none; offset-distance:50%;}
+  }
+
+  .route{
+    border:3px solid var(--jungle-3);
+    border-radius:16px;
+    padding:16px 18px;
+    margin-bottom:14px;
+    display:flex;
+    gap:14px;
+    align-items:flex-start;
+  }
+  .route-icon{
+    flex:none;
+    width:38px; height:38px;
+    border-radius:10px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:18px;
+    margin-top:2px;
+  }
+  .route.move{background:rgba(255,61,129,0.1); border-color:var(--pink);}
+  .route.move .route-icon{background:var(--pink); color:var(--cream);}
+  .route.stay{background:rgba(201,243,29,0.08); border-color:var(--lime);}
+  .route.stay .route-icon{background:var(--lime); color:var(--ink);}
+
+  .route-body{
+    flex:1 1 auto;
+    min-width:0;
+  }
+  .route-body h3{
+    margin:0 0 6px;
+    font-size:22px;
+    font-family:var(--font-body);
+    font-weight:700;
+    color:var(--cream);
+    line-height:1.2;
+  }
+  .route-body p{
+    margin:0 0 10px;
+    font-size:14px;
+    color:var(--muted);
+    font-weight:600;
+    overflow-wrap:break-word;
+  }
+  .route-body b{color:var(--cream); font-weight:700;}
+
+  .name-list{
+    list-style:none;
+    margin:0;
+    padding:0;
+    column-count:2;
+    column-gap:18px;
+  }
+  .name-list li{
+    font-size:13px;
+    color:var(--cream);
+    font-weight:600;
+    padding:5px 0;
+    border-bottom:1px dashed rgba(255,246,224,0.12);
+    break-inside:avoid;
+    -webkit-column-break-inside:avoid;
+  }
+
+  @media (max-width: 380px){
+    .name-list{ column-count:1; }
+  }
+
+
+
+  .sheet-footnote{
+    margin-top:16px;
+    padding:14px 16px;
+    background:var(--jungle-3);
+    border-radius:14px;
+    font-size:13px;
+    color:var(--muted);
+    font-weight:600;
+  }
+  .sheet-footnote strong{color:var(--lime);}
+
+  /* about / how it works */
+  .about{
+    max-width:640px;
+    margin:50px auto 0;
+    padding:22px;
+    position:relative;
+    z-index:1;
+  }
+  .about summary{
+    cursor:pointer;
+    font-family:var(--font-round);
+    font-weight:600;
+    font-size:14px;
+    letter-spacing:0.02em;
+    color:var(--sunset);
+    list-style:none;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .about summary::-webkit-details-marker{display:none;}
+  .about summary::before{
+    content:"🌴";
+    font-size:14px;
+  }
+  .about-body{
+    padding:14px 4px 0 26px;
+    color:var(--muted);
+    font-size:14px;
+    max-width:56ch;
+    font-weight:600;
+  }
+  .about-body p{margin:0 0 10px;}
+
+  @media (prefers-reduced-motion: reduce){
+    .sheet, .scrim, .wiggle, .brand .dot{transition:none; animation:none;}
+  }
+</style>
+</head>
+<body>
+
+<div class="leaf" style="top:-40px; left:-40px; width:180px; height:180px;">
+  <svg viewBox="0 0 100 100"><path d="M50 0 C 90 20 90 80 50 100 C 10 80 10 20 50 0 Z" fill="#c9f31d"/></svg>
+</div>
+<div class="leaf" style="bottom:-30px; right:-30px; width:150px; height:150px; transform:rotate(35deg);">
+  <svg viewBox="0 0 100 100"><path d="M50 0 C 90 20 90 80 50 100 C 10 80 10 20 50 0 Z" fill="#ff8c1a"/></svg>
+</div>
+
+<div class="stripe-band"></div>
+
+<header class="site-header">
+  <div class="brand"><span class="dot"></span> DECO2102</div>
+</header>
+
+<section class="hero">
+  <h1>Move It,<br>Move It<span class="wiggle">!</span></h1>
+  <div class="subhead">🦓 Week 7 (14 Sep) 🦓</div>
+  <p class="lede">
+    Check below before you head to class.
+  </p>
+</section>
+
+<p class="hint">Select your tutorial to know if you're going or staying 👇</p>
+
+<div class="slots">
+  <div class="slot-group">
+    <div class="slot-title">🕐 10:00 – 12:00</div>
+    <div class="tile-grid">
+      <div class="tut-tile" data-tut="T01"><span class="tile-label">Tutorial</span><span class="tile-num">01</span></div>
+      <div class="tut-tile" data-tut="T07"><span class="tile-label">Tutorial</span><span class="tile-num">07</span></div>
+      <div class="tut-tile" data-tut="T04"><span class="tile-label">Tutorial</span><span class="tile-num">04</span></div>
+      <div class="tut-tile" data-tut="T05"><span class="tile-label">Tutorial</span><span class="tile-num">05</span></div>
+      <div class="tut-tile" data-tut="T06"><span class="tile-label">Tutorial</span><span class="tile-num">06</span></div>
+    </div>
+  </div>
+
+  <div class="slot-group">
+    <div class="slot-title">🕐 1:00 – 3:00</div>
+    <div class="tile-grid">
+      <div class="tut-tile" data-tut="T08"><span class="tile-label">Tutorial</span><span class="tile-num">08</span></div>
+      <div class="tut-tile" data-tut="T09"><span class="tile-label">Tutorial</span><span class="tile-num">09</span></div>
+      <div class="tut-tile" data-tut="T12"><span class="tile-label">Tutorial</span><span class="tile-num">12</span></div>
+    </div>
+  </div>
+
+  <div class="slot-group">
+    <div class="slot-title">🕐 3:00 – 5:00</div>
+    <div class="tile-grid">
+      <div class="tut-tile" data-tut="T13"><span class="tile-label">Tutorial</span><span class="tile-num">13</span></div>
+      <div class="tut-tile" data-tut="T14"><span class="tile-label">Tutorial</span><span class="tile-num">14</span></div>
+    </div>
+  </div>
+</div>
+
+<details class="about">
+  <summary>Why do we move it, move it?</summary>
+  <div class="about-body">
+    <p>It's a chance to meet a new tutor and new classmates, and get exposed to perspectives outside your own tutorial. We want you to feel less isolated in your own bubble and more connected to the cohort as a whole.</p>
+  </div>
+</details>
+
+<!-- bottom sheet -->
+<div class="scrim" id="scrim"></div>
+<div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title">
+  <button class="sheet-close" id="sheetClose" aria-label="Close">✕</button>
+  <div class="sheet-grabber"></div>
+  <div class="sheet-eyebrow" id="sheetTime"></div>
+  <div class="sheet-title" id="sheetTitle"></div>
+
+
+  <svg class="conga" viewBox="0 0 600 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M10,32 C 90,4 180,60 280,32 S 470,4 590,32" fill="none" stroke="#12603f" stroke-width="3" stroke-dasharray="2 10" stroke-linecap="round"/>
+    <circle class="conga-path-dot" r="7" fill="#ff3d81"/>
+    <circle class="conga-path-dot" r="6" fill="#c9f31d" style="animation-delay:-0.5s;"/>
+    <circle class="conga-path-dot" r="6" fill="#ff8c1a" style="animation-delay:-1s;"/>
+    <circle class="conga-path-dot" r="6" fill="#c9f31d" style="animation-delay:-1.5s;"/>
+    <circle class="conga-path-dot" r="6" fill="#ff3d81" style="animation-delay:-2s;"/>
+  </svg>
+
+  <div class="route move">
+    <div class="route-icon">💃</div>
+    <div class="route-body">
+      <h3 id="moveHeading">Joining a different tutorial today</h3>
+      <p id="sheetMoveText"></p>
+      <ul class="name-list" id="movingList"></ul>
+    </div>
+  </div>
+
+  <div class="route stay">
+    <div class="route-icon">🏠</div>
+    <div class="route-body">
+      <h3>Go to your usual tutorial</h3>
+      <ul class="name-list" id="stayingList"></ul>
+    </div>
+  </div>
+
+
+</div>
+
+<script>
+  const DATA = {"T01": {"time": "10:00\u201312:00", "home": "Wilkinson Building (G04) \u00b7 Wilkinson 526 Seminar Room", "destCode": "T07", "destRoom": "The School of Information Technologies (J12) \u00b7 School of IT Lecture Theatre 123", "incomingFrom": "T07", "incomingFromRoom": "The School of Information Technologies (J12) \u00b7 School of IT Lecture Theatre 123", "incomingCount": 20, "staying": [{"name": "Angeline Chen", "flag": false}, {"name": "Dihini Samaranayake", "flag": false}, {"name": "Eliza Doyle", "flag": false}, {"name": "Frederick Randell", "flag": false}, {"name": "Hellina Johnstone", "flag": false}, {"name": "Kaihan Yu", "flag": false}, {"name": "Kasima Kusumavalee", "flag": false}, {"name": "Lily Edwards", "flag": false}, {"name": "Lindsay Austria", "flag": false}, {"name": "Luca Reef", "flag": false}, {"name": "Lucas Pesce", "flag": false}, {"name": "Muhammad Usayd Lakhani", "flag": false}, {"name": "Samant Thakre", "flag": false}, {"name": "Saumya Nagar", "flag": false}, {"name": "Shreya Nirvan", "flag": false}, {"name": "Victoria Alex", "flag": false}, {"name": "Yi-Chen Chen", "flag": false}, {"name": "Ziyang He", "flag": false}], "moving": [{"name": "Alexander Ivanov", "flag": false}, {"name": "Charlotte Lerche", "flag": false}, {"name": "Cheng-Yu Hung", "flag": false}, {"name": "Ella Beldoza", "flag": false}, {"name": "Guangyu Wu", "flag": false}, {"name": "Ha Linh Ngo", "flag": false}, {"name": "Hanyi Shen", "flag": false}, {"name": "Hongteng Chen", "flag": false}, {"name": "Jack Mcgreal", "flag": false}, {"name": "Jiaqi Liu", "flag": false}, {"name": "Lucas Moa", "flag": false}, {"name": "Nawar Hughes", "flag": false}, {"name": "Philippa Mcintyre", "flag": false}, {"name": "Shijun Li", "flag": false}, {"name": "Tefu A", "flag": false}, {"name": "Yi Xian Kok", "flag": false}, {"name": "Yu-Hsuan Hsiao", "flag": false}, {"name": "Yuyue Huo", "flag": false}]}, "T04": {"time": "10:00\u201312:00", "home": "Wilkinson Building (G04) \u00b7 Wilkinson Seminar Room 231", "destCode": "T05", "destRoom": "Belinda Hutchinson Building (H70) \u00b7 BHB Seminar Room 1080", "incomingFrom": "T06", "incomingFromRoom": "Belinda Hutchinson Building (H70) \u00b7 BHB Seminar Room 1100", "incomingCount": 10, "staying": [{"name": "Amber Leanne Amper", "flag": false}, {"name": "Anesu Mukono", "flag": false}, {"name": "Eugenie Widjaya", "flag": false}, {"name": "Geng Sen Teoh", "flag": false}, {"name": "Imogen Peel", "flag": false}, {"name": "Jing-Han Wang", "flag": false}, {"name": "Kristal Cam", "flag": false}, {"name": "Liyu Chen", "flag": false}, {"name": "Maria Jiarui Guo", "flag": false}, {"name": "Nicole Chen", "flag": false}, {"name": "Peniana Blair", "flag": false}, {"name": "Tatyara Gomargana", "flag": false}, {"name": "Vincent Su", "flag": false}, {"name": "Xia Su", "flag": false}, {"name": "Xinle Su", "flag": false}, {"name": "Yirui Wu", "flag": false}, {"name": "Zara Sherwood", "flag": false}], "moving": [{"name": "Anlika Hasraqiel Kadhava", "flag": false}, {"name": "Chatawee Nanvimolchai", "flag": false}, {"name": "Chun Wing Wong", "flag": false}, {"name": "Erleen Santos", "flag": false}, {"name": "Gabriella Prajogo", "flag": false}, {"name": "Hanfu Zhang", "flag": false}, {"name": "Ka I Wong", "flag": false}, {"name": "Kent Makmur", "flag": false}, {"name": "Kota Iwabuchi", "flag": false}, {"name": "Rehana Attaii", "flag": false}, {"name": "Shirley Lin", "flag": false}, {"name": "Shlok Parag Kulkarni", "flag": false}, {"name": "Shruti Vivek", "flag": false}, {"name": "Tianyun Yan", "flag": false}, {"name": "Viet Nhat Minh Nguyen", "flag": false}, {"name": "Xinpeng Gu", "flag": false}, {"name": "Yunuo Chen", "flag": false}]}, "T05": {"time": "10:00\u201312:00", "home": "Belinda Hutchinson Building (H70) \u00b7 BHB Seminar Room 1080", "destCode": "T06", "destRoom": "Belinda Hutchinson Building (H70) \u00b7 BHB Seminar Room 1100", "incomingFrom": "T04", "incomingFromRoom": "Wilkinson Building (G04) \u00b7 Wilkinson Seminar Room 231", "incomingCount": 17, "staying": [{"name": "Alex Moujalli", "flag": false}, {"name": "Alexandra Sarmiento", "flag": false}, {"name": "Ba Khiem Le", "flag": false}, {"name": "Benjamin Tjoeng", "flag": false}, {"name": "King Yau Fong", "flag": false}, {"name": "Lilly Hassall", "flag": false}, {"name": "Neel Iyer", "flag": false}, {"name": "Shin-Mu Lin", "flag": false}], "moving": [{"name": "Anya Zhang", "flag": false}, {"name": "Jiaqi Mai", "flag": false}, {"name": "Jinghan Yang", "flag": false}, {"name": "Liliann Lucas", "flag": false}, {"name": "Nuo Li", "flag": false}, {"name": "Vu Trang Anh Ha", "flag": false}, {"name": "Yi Yun Pan", "flag": false}, {"name": "Yunni Yang", "flag": false}]}, "T06": {"time": "10:00\u201312:00", "home": "Belinda Hutchinson Building (H70) \u00b7 BHB Seminar Room 1100", "destCode": "T04", "destRoom": "Wilkinson Building (G04) \u00b7 Wilkinson Seminar Room 231", "incomingFrom": "T05", "incomingFromRoom": "Belinda Hutchinson Building (H70) \u00b7 BHB Seminar Room 1080", "incomingCount": 8, "staying": [{"name": "Asher Tan", "flag": false}, {"name": "Brandon Vyan", "flag": false}, {"name": "Darryl Radita", "flag": false}, {"name": "Jiin Woo", "flag": false}, {"name": "Miles Eden", "flag": false}, {"name": "Praneel Kamineni", "flag": false}, {"name": "Reighniel Valeriano", "flag": false}, {"name": "Ruohua Di", "flag": false}, {"name": "Wei-Ting Chen", "flag": false}, {"name": "Zeshuai Fan", "flag": false}], "moving": [{"name": "Eden Carpenter", "flag": false}, {"name": "Hongyi Chen", "flag": false}, {"name": "Isabella Yuhico", "flag": false}, {"name": "Jasmina Zahir", "flag": false}, {"name": "Kaitong Gao", "flag": false}, {"name": "Kate Bernhardi", "flag": false}, {"name": "Luka Vandercamme", "flag": false}, {"name": "Noah Meadows", "flag": false}, {"name": "Sascha Jones", "flag": false}, {"name": "Sihan Zhang", "flag": false}]}, "T07": {"time": "10:00\u201312:00", "home": "The School of Information Technologies (J12) \u00b7 School of IT Lecture Theatre 123", "destCode": "T01", "destRoom": "Wilkinson Building (G04) \u00b7 Wilkinson 526 Seminar Room", "incomingFrom": "T01", "incomingFromRoom": "Wilkinson Building (G04) \u00b7 Wilkinson 526 Seminar Room", "incomingCount": 18, "staying": [{"name": "Arjun Saha Choudhury", "flag": false}, {"name": "Arnav Gupta", "flag": false}, {"name": "Audrey Huang", "flag": false}, {"name": "Chen Zhang", "flag": false}, {"name": "Chuhan Xu", "flag": false}, {"name": "Divya Mullassery Prashant", "flag": false}, {"name": "Egshiglen Enkhbold", "flag": false}, {"name": "Holly Lin", "flag": false}, {"name": "Jacinta Zhou", "flag": false}, {"name": "Jaeho Jeong", "flag": false}, {"name": "Jiayi Chen", "flag": false}, {"name": "Jina Kim", "flag": false}, {"name": "Mari Yoshida", "flag": false}, {"name": "Marsha Wijaya", "flag": false}, {"name": "Michella Krishna", "flag": false}, {"name": "Minji Gwak", "flag": false}, {"name": "Niharika Chomal", "flag": false}, {"name": "Sharon Fu Han Chang", "flag": false}, {"name": "Yiqing Xie", "flag": false}, {"name": "Yulin Ou", "flag": false}, {"name": "Zixuan Wang", "flag": false}], "moving": [{"name": "Anh Nguyen", "flag": false}, {"name": "Christine Kim", "flag": false}, {"name": "Emircan Kocak", "flag": false}, {"name": "Esther Hsu", "flag": false}, {"name": "Han Lin", "flag": false}, {"name": "Hannah Tseng", "flag": false}, {"name": "Hillary Nguyen", "flag": false}, {"name": "Jefferson Buwana", "flag": false}, {"name": "Jiarui Fan", "flag": false}, {"name": "Junkai Zhi", "flag": false}, {"name": "Kai-Chen Huang", "flag": false}, {"name": "Kalista Bookluck", "flag": false}, {"name": "Nicola Casaclang", "flag": false}, {"name": "Nicole Wong", "flag": false}, {"name": "Sandeep De Silva", "flag": false}, {"name": "Sanjeev Ragothaman", "flag": false}, {"name": "Sindy Huang", "flag": false}, {"name": "Siyuan Yang", "flag": false}, {"name": "Sota Kageyama", "flag": false}, {"name": "Yichi Zhang", "flag": false}]}, "T08": {"time": "1:00\u20133:00", "home": "Wilkinson Building (G04) \u00b7 Wilkinson 313 Computing Studio", "destCode": "T09", "destRoom": "Wilkinson Building (G04) \u00b7 Wilkinson 526 Seminar Room", "incomingFrom": "T12", "incomingFromRoom": "Belinda Hutchinson Building (H70) \u00b7 BHB Seminar Room 3170", "incomingCount": 12, "staying": [{"name": "Anastasia Yeates", "flag": false}, {"name": "Apoorva Dhakad", "flag": false}, {"name": "Chaereen Suh", "flag": false}, {"name": "Clara Ingvarsson", "flag": false}, {"name": "Gia Kiet Chau", "flag": false}, {"name": "Henry Chiem", "flag": false}, {"name": "Hua Bin Ryanfrancis Shi", "flag": false}, {"name": "Huiqi Zheng", "flag": false}, {"name": "Kashvi Gaurav Gohil", "flag": false}, {"name": "Rauda Yousef Khalfan Sulaiman Alharrasi", "flag": false}, {"name": "Yiqing Zhou", "flag": false}, {"name": "Zihan Shi", "flag": false}], "moving": [{"name": "Dalena Vu", "flag": false}, {"name": "Jinlan Shu", "flag": false}, {"name": "Sean Guo", "flag": false}, {"name": "Tavisha Arora", "flag": false}, {"name": "Yinan Feng", "flag": false}, {"name": "Yiting Xie", "flag": false}, {"name": "Yu Chun Chen", "flag": false}, {"name": "Zhiqian Chen", "flag": false}, {"name": "Zihua Huang", "flag": false}]}, "T09": {"time": "1:00\u20133:00", "home": "Wilkinson Building (G04) \u00b7 Wilkinson 526 Seminar Room", "destCode": "T12", "destRoom": "Belinda Hutchinson Building (H70) \u00b7 BHB Seminar Room 3170", "incomingFrom": "T08", "incomingFromRoom": "Wilkinson Building (G04) \u00b7 Wilkinson 313 Computing Studio", "incomingCount": 9, "staying": [{"name": "Aibe Elsworth", "flag": false}, {"name": "Alexander Walsh", "flag": false}, {"name": "Alison Mcguigan", "flag": false}, {"name": "Anni Zhang", "flag": false}, {"name": "Belinda Nguyen", "flag": false}, {"name": "Carlos Aki Sato Cerda", "flag": false}, {"name": "Hannah Cooper-Larson", "flag": false}, {"name": "Marianne Powzun", "flag": false}, {"name": "Mengze Song", "flag": false}, {"name": "Monica Li", "flag": false}, {"name": "Ning Wei Ng", "flag": false}, {"name": "Olivia Walker", "flag": false}, {"name": "Pinzhuo Chen", "flag": false}, {"name": "Siyuan Chen", "flag": false}, {"name": "Tarun Arul Kumar", "flag": false}, {"name": "Xinyun Weng", "flag": false}, {"name": "Yihan Bai", "flag": false}, {"name": "Ying Ling Su", "flag": false}, {"name": "Yunshan Zhao", "flag": false}, {"name": "Zoe Howdin", "flag": false}], "moving": [{"name": "Aaron Khuu", "flag": false}, {"name": "Anvitaa Saxena", "flag": false}, {"name": "Furui Ye", "flag": false}, {"name": "Htut Wai", "flag": false}, {"name": "Lachlan Wain", "flag": false}, {"name": "Maria Yuan", "flag": false}, {"name": "Mingcheng Xie", "flag": false}, {"name": "Russal Arya", "flag": false}, {"name": "Sabrina Khuu", "flag": false}, {"name": "Shangjie Li", "flag": false}, {"name": "Sitong Guo", "flag": false}, {"name": "Sixuan Du", "flag": false}, {"name": "Te Liu", "flag": false}, {"name": "Wen-Le Yang", "flag": false}, {"name": "Xinrong He", "flag": false}, {"name": "Yichen Wang", "flag": false}, {"name": "Yu-Hsin Wang", "flag": false}, {"name": "Yuki Iizuka", "flag": false}, {"name": "Zhongyan Bai", "flag": false}]}, "T12": {"time": "1:00\u20133:00", "home": "Belinda Hutchinson Building (H70) \u00b7 BHB Seminar Room 3170", "destCode": "T08", "destRoom": "Wilkinson Building (G04) \u00b7 Wilkinson 313 Computing Studio", "incomingFrom": "T09", "incomingFromRoom": "Wilkinson Building (G04) \u00b7 Wilkinson 526 Seminar Room", "incomingCount": 19, "staying": [{"name": "Bhumika Kalaimalai", "flag": false}, {"name": "Caleb Hoh", "flag": false}, {"name": "Emily Cheng", "flag": false}, {"name": "Megan Fu", "flag": false}, {"name": "Qinyi Zhu", "flag": false}, {"name": "Ruiting Shu", "flag": false}, {"name": "Samuel Bennett", "flag": false}, {"name": "Shih-Lun Su", "flag": false}, {"name": "Soon Wook Kwon", "flag": false}, {"name": "Vanshika Dahiya", "flag": false}, {"name": "Yu-Wei Hsu", "flag": false}], "moving": [{"name": "Anika Pandey", "flag": false}, {"name": "Baoyi Cheng", "flag": false}, {"name": "Jiarui Shi", "flag": false}, {"name": "Poorvi Banwala", "flag": false}, {"name": "Shuanger Wu", "flag": false}, {"name": "Tong Yue", "flag": false}, {"name": "Xien Sun", "flag": false}, {"name": "Yingtong Lai", "flag": false}, {"name": "Yu Han Zhang", "flag": false}, {"name": "Zhilin Tian", "flag": false}, {"name": "Zimeng Gu", "flag": false}, {"name": "Ziying Hou", "flag": false}]}, "T13": {"time": "3:00\u20135:00", "home": "Wilkinson Building (G04) \u00b7 Wilkinson Seminar Room 231", "destCode": "T14", "destRoom": "Belinda Hutchinson Building (H70) \u00b7 BHB Seminar Room 3170", "incomingFrom": "T14", "incomingFromRoom": "Belinda Hutchinson Building (H70) \u00b7 BHB Seminar Room 3170", "incomingCount": 11, "staying": [{"name": "Akira Shionoya", "flag": false}, {"name": "Anson Wong", "flag": false}, {"name": "Lingyun Yi", "flag": false}, {"name": "Lirun Qiu", "flag": false}, {"name": "Moyang Zhou", "flag": false}, {"name": "Ran Ju", "flag": false}, {"name": "Shanmei Zhang", "flag": false}, {"name": "Shing Yan Annabella Lee", "flag": false}, {"name": "Shunxin Wei", "flag": false}, {"name": "Siyi Liu", "flag": false}, {"name": "Van My Zhang", "flag": false}, {"name": "Vy Duy Thuy Nguyen", "flag": false}, {"name": "William Mak", "flag": false}, {"name": "Yanyu Tong", "flag": false}, {"name": "Yicen Shen", "flag": false}, {"name": "Yuchen Tao", "flag": false}, {"name": "Zihan Li", "flag": false}], "moving": [{"name": "Huyang Liu", "flag": false}, {"name": "Jingya Hong", "flag": false}, {"name": "Jinyan Li", "flag": false}, {"name": "Junxuan Chen", "flag": false}, {"name": "Phu Minh Hoang Nguyen", "flag": false}, {"name": "Rohan Dutta", "flag": false}, {"name": "Shenghan Xiang", "flag": false}, {"name": "Shijia Yu", "flag": false}, {"name": "Tricia Shin", "flag": false}, {"name": "Xuanyu Zhou", "flag": false}, {"name": "Yen Phuong Thai", "flag": false}, {"name": "Yijun Zhong", "flag": false}, {"name": "Yiran Zhu", "flag": false}, {"name": "Yufei He", "flag": false}, {"name": "Yuhan Zhang", "flag": false}, {"name": "Yuxuan Zhang", "flag": false}, {"name": "Zhaoyu Yan", "flag": false}, {"name": "Zixian Zhu", "flag": false}]}, "T14": {"time": "3:00\u20135:00", "home": "Belinda Hutchinson Building (H70) \u00b7 BHB Seminar Room 3170", "destCode": "T13", "destRoom": "Wilkinson Building (G04) \u00b7 Wilkinson Seminar Room 231", "incomingFrom": "T13", "incomingFromRoom": "Wilkinson Building (G04) \u00b7 Wilkinson Seminar Room 231", "incomingCount": 18, "staying": [{"name": "Emily Meadow Deming Wang", "flag": false}, {"name": "Hang Li", "flag": false}, {"name": "Kaiwen Zhang", "flag": false}, {"name": "Keyu Pan", "flag": false}, {"name": "Ruoxi Li", "flag": false}, {"name": "Xintong Li", "flag": false}, {"name": "Yanran Zhang", "flag": false}, {"name": "Yi-Shiuan Lin", "flag": false}, {"name": "Zeqi Fan", "flag": false}], "moving": [{"name": "Baotong Yu", "flag": false}, {"name": "Chanachol Yonprawes", "flag": false}, {"name": "Gemini Lucas", "flag": false}, {"name": "Jiayang Tang", "flag": false}, {"name": "Liqian Chen", "flag": false}, {"name": "Mihika Roy", "flag": false}, {"name": "Ruotong Ling", "flag": false}, {"name": "Xinyuan Liu", "flag": false}, {"name": "Yiyi Wang", "flag": false}, {"name": "Zihan Xiong", "flag": false}, {"name": "Ziyi Wang", "flag": false}]}}
+;
+
+  const scrim = document.getElementById('scrim');
+  const sheet = document.getElementById('sheet');
+  const sheetTime = document.getElementById('sheetTime');
+  const sheetTitle = document.getElementById('sheetTitle');
+  const sheetMoveText = document.getElementById('sheetMoveText');
+  const movingList = document.getElementById('movingList');
+  const stayingList = document.getElementById('stayingList');
+
+  let lastFocused = null;
+
+  function renderNames(listEl, students){
+    listEl.innerHTML = '';
+    students.forEach(function(s){
+      const li = document.createElement('li');
+      li.textContent = s.name;
+      listEl.appendChild(li);
+    });
+  }
+
+  function openSheet(code){
+    const d = DATA[code];
+    if(!d) return;
+
+    document.querySelectorAll('.tut-tile').forEach(function(t){
+      t.classList.toggle('is-active', t.dataset.tut === code);
+    });
+
+    const destNum = d.destCode.slice(1);
+    const incNum = d.incomingFrom.slice(1);
+
+    sheetTime.textContent = d.time;
+    sheetTitle.textContent = "Tutorial " + code.slice(1);
+    sheetMoveText.innerHTML = "Go straight to <b>" + d.destRoom + "</b> (Tutorial " + destNum + "):";
+
+    renderNames(movingList, d.moving);
+    renderNames(stayingList, d.staying);
+
+    scrim.classList.add('is-open');
+    sheet.classList.add('is-open');
+    lastFocused = document.activeElement;
+    document.getElementById('sheetClose').focus();
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeSheet(){
+    scrim.classList.remove('is-open');
+    sheet.classList.remove('is-open');
+    document.body.style.overflow = '';
+    document.querySelectorAll('.tut-tile').forEach(function(t){ t.classList.remove('is-active'); });
+    if(lastFocused) lastFocused.focus();
+  }
+
+  document.querySelectorAll('.tut-tile').forEach(function(tile){
+    tile.setAttribute('tabindex', '0');
+    tile.setAttribute('role', 'button');
+    tile.addEventListener('click', function(){ openSheet(tile.dataset.tut); });
+    tile.addEventListener('keydown', function(e){
+      if(e.key === 'Enter' || e.key === ' '){
+        e.preventDefault();
+        openSheet(tile.dataset.tut);
+      }
+    });
+  });
+
+  scrim.addEventListener('click', closeSheet);
+  document.getElementById('sheetClose').addEventListener('click', closeSheet);
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && sheet.classList.contains('is-open')) closeSheet();
+  });
+</script>
+
+</body>
+</html>
