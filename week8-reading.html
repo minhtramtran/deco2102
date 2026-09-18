@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>DESIGN_STUDIO_V1.0 - WEEK 08</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Arimo:wght@400;700&amp;family=Domine:wght@700&amp;family=Courier+Prime&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-background": "#1b1b1b",
+                    "primary-fixed": "#e0e0ff",
+                    "inverse-on-surface": "#f1f1f1",
+                    "on-error-container": "#93000a",
+                    "on-tertiary": "#ffffff",
+                    "tertiary": "#00003d",
+                    "outline": "#767684",
+                    "tertiary-fixed-dim": "#bec2ff",
+                    "primary-container": "#000080",
+                    "tertiary-fixed": "#e0e0ff",
+                    "inverse-surface": "#303030",
+                    "on-tertiary-fixed-variant": "#0000ef",
+                    "error-container": "#ffdad6",
+                    "surface-container-high": "#e8e8e8",
+                    "surface-tint": "#4b53bc",
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary-container": "#777eea",
+                    "surface-container-low": "#f3f3f3",
+                    "on-secondary": "#ffffff",
+                    "on-secondary-container": "#626363",
+                    "surface": "#f9f9f9",
+                    "outline-variant": "#c6c5d5",
+                    "on-primary-fixed": "#00006e",
+                    "background": "#f9f9f9",
+                    "on-tertiary-container": "#727bff",
+                    "on-secondary-fixed": "#1a1c1c",
+                    "primary": "#00003c",
+                    "tertiary-container": "#000180",
+                    "on-secondary-fixed-variant": "#464747",
+                    "on-primary-fixed-variant": "#3239a3",
+                    "on-surface": "#1b1b1b",
+                    "on-surface-variant": "#464653",
+                    "inverse-primary": "#bfc2ff",
+                    "surface-dim": "#dadada",
+                    "surface-variant": "#e2e2e2",
+                    "secondary-container": "#e0dfdf",
+                    "surface-container-highest": "#e2e2e2",
+                    "surface-bright": "#f9f9f9",
+                    "on-primary": "#ffffff",
+                    "secondary-fixed": "#e3e2e2",
+                    "secondary-fixed-dim": "#c6c6c6",
+                    "surface-container": "#eeeeee",
+                    "on-error": "#ffffff",
+                    "primary-fixed-dim": "#bfc2ff",
+                    "secondary": "#5d5e5f",
+                    "error": "#ba1a1a",
+                    "on-tertiary-fixed": "#00006e"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0px",
+                    "lg": "0px",
+                    "xl": "0px",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "window-margin": "24px",
+                    "border-width": "2px",
+                    "padding-sm": "8px",
+                    "gutter": "12px",
+                    "padding-md": "16px",
+                    "padding-xs": "4px"
+            },
+            "fontFamily": {
+                    "body-lg": ["Arimo", "sans-serif"],
+                    "title-bar": ["Arimo", "sans-serif"],
+                    "body-md": ["Arimo", "sans-serif"],
+                    "headline-md": ["Domine", "serif"],
+                    "label-mono": ["Courier Prime", "monospace"],
+                    "headline-lg": ["Domine", "serif"]
+            },
+            "fontSize": {
+                    "body-lg": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "title-bar": ["13px", {"lineHeight": "1.0", "fontWeight": "700"}],
+                    "body-md": ["14px", {"lineHeight": "1.4", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                    "label-mono": ["12px", {"lineHeight": "1.2", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #C0C0C0; /* Classic Win95 Gray */
+            color: #1b1b1b;
+            image-rendering: pixelated;
+        }
+        
+        .win95-outset {
+            border-top: 2px solid #FFFFFF;
+            border-left: 2px solid #FFFFFF;
+            border-bottom: 2px solid #808080;
+            border-right: 2px solid #808080;
+        }
+        
+        .win95-inset {
+            border-top: 2px solid #808080;
+            border-left: 2px solid #808080;
+            border-bottom: 2px solid #FFFFFF;
+            border-right: 2px solid #FFFFFF;
+        }
+
+        .title-bar {
+            background-color: #000080; /* Win95 Navy */
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 3px 4px;
+        }
+
+        .title-bar-text {
+            font-family: 'Arimo', sans-serif;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        .win95-button {
+            background-color: #C0C0C0;
+            border-top: 1px solid #FFFFFF;
+            border-left: 1px solid #FFFFFF;
+            border-bottom: 1px solid #808080;
+            border-right: 1px solid #808080;
+            padding: 2px 6px;
+            font-size: 12px;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .win95-button:active {
+            border-top: 1px solid #808080;
+            border-left: 1px solid #808080;
+            border-bottom: 1px solid #FFFFFF;
+            border-right: 1px solid #FFFFFF;
+            transform: translate(1px, 1px);
+        }
+
+        .window-control {
+            width: 14px;
+            height: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #C0C0C0;
+            border-top: 1px solid #FFFFFF;
+            border-left: 1px solid #FFFFFF;
+            border-bottom: 1px solid #808080;
+            border-right: 1px solid #808080;
+            margin-left: 2px;
+            font-weight: bold;
+            font-size: 10px;
+            color: black;
+        }
+
+        .marquee-container {
+            border: 2px solid #808080;
+            background: #000;
+            color: #00FF00;
+            overflow: hidden;
+            white-space: nowrap;
+            font-family: 'Courier Prime', monospace;
+            padding: 2px;
+            margin-bottom: 12px;
+        }
+
+        .marquee-text {
+            display: inline-block;
+            animation: marquee 15s linear infinite;
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        .dotted-focus {
+            outline: 1px dotted #000;
+            outline-offset: -4px;
+        }
+
+        .material-symbols-outlined {
+            font-size: 16px;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body class="p-4 font-body-md text-body-md">
+<p class="max-w-5xl mx-auto mb-4 text-xs italic text-on-surface-variant win95-inset bg-white p-3">
+  We're changing the visual design of this page each week to make the reading feel a bit more engaging, while keeping the content structure consistent. This week's theme is <span class="font-bold not-italic">90s Retro Desktop</span>. Windows 95-style beveled windows, dithered pixel graphics, and a classic desktop taskbar.
+</p>
+
+<main class="max-w-5xl mx-auto space-y-8">
+<!-- MAIN HEADLINE WINDOW -->
+<section class="win95-outset bg-secondary-fixed">
+<div class="title-bar">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined">folder_open</span>
+<span class="title-bar-text">SUBJECT_HEADER.EXE</span>
+</div>
+<div class="flex">
+<div class="window-control">_</div>
+<div class="window-control">×</div>
+</div>
+</div>
+<div class="p-8 text-center bg-white m-1 win95-inset">
+<h1 class="font-headline-lg text-headline-lg uppercase text-primary-container tracking-tighter mb-2">WEEK 08: STATE OF THE DESIGNER 2026</h1>
+<p class="font-label-mono text-label-mono text-outline">LOADED AT 10:24:01 GMT-5</p>
+<div class="h-1 bg-primary-container w-32 mx-auto mt-4"></div>
+</div>
+</section>
+<!-- BENTO-ISH 90s GRID -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+<!-- REQUIRED READING WINDOW -->
+<section class="md:col-span-7 win95-outset bg-secondary-fixed flex flex-col">
+<div class="title-bar">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined">auto_stories</span>
+<span class="title-bar-text">REQUIRED READING</span>
+</div>
+</div>
+<div class="p-4 bg-white m-1 win95-inset flex flex-col md:flex-row gap-6 grow">
+<div class="w-full md:w-1/3 flex-shrink-0">
+<div class="win95-outset p-1 bg-secondary-fixed">
+<svg class="w-full h-auto border border-outline" viewBox="0 0 200 260" xmlns="http://www.w3.org/2000/svg" style="image-rendering:pixelated;">
+<rect width="200" height="260" fill="#000000"></rect>
+<rect x="8" y="8" width="184" height="244" fill="none" stroke="#00FF00" stroke-width="2" stroke-dasharray="4 3"></rect>
+<rect x="20" y="30" width="160" height="90" fill="#1a1a1a"></rect>
+<rect x="30" y="45" width="18" height="18" fill="#FF00FF"></rect>
+<rect x="52" y="45" width="18" height="18" fill="#00FFFF"></rect>
+<rect x="74" y="45" width="18" height="18" fill="#FFFF00"></rect>
+<rect x="30" y="67" width="40" height="12" fill="#808080"></rect>
+<rect x="110" y="45" width="60" height="55" fill="none" stroke="#FFFFFF" stroke-width="2"></rect>
+<circle cx="140" cy="72" r="14" fill="#FF0080"></circle>
+<text x="30" y="150" font-family="monospace" font-size="17" font-weight="bold" fill="#00FF00">STATE OF THE</text>
+<text x="30" y="175" font-family="monospace" font-size="20" font-weight="bold" fill="#FFFFFF">DESIGNER</text>
+<text x="30" y="200" font-family="monospace" font-size="26" font-weight="bold" fill="#FF00FF">2026</text>
+<text x="30" y="225" font-family="monospace" font-size="9" fill="#808080">SURVEY EDITION</text>
+<text x="30" y="238" font-family="monospace" font-size="9" fill="#808080">906 DESIGNERS / GLOBAL</text>
+</svg>
+</div>
+</div>
+<div class="flex flex-col">
+<h2 class="font-headline-md text-headline-md text-primary mb-2">State of the Designer 2026</h2>
+<h3 class="font-body-md text-body-md font-bold mb-4 italic text-on-surface-variant">by Figma &amp; NewtonX</h3>
+<div class="win95-inset p-3 bg-surface-container-low font-body-md mb-4 text-on-surface">Figma surveyed 906 designers worldwide on how they're using AI to sharpen their craft, why creative autonomy is the top driver of job satisfaction, and how teams are balancing structure with freedom.</div>
+<div class="mt-auto flex flex-col gap-2">
+<a href="https://canvas.sydney.edu.au/courses/75702/files/52648153?wrap=1" target="_blank" rel="noopener" class="win95-button win95-outset px-4 py-2 font-bold text-primary-container flex items-center gap-2 no-underline w-fit"><span class="material-symbols-outlined">download</span><span>DOWNLOAD_REPORT.PDF</span></a>
+<p class="font-label-mono text-label-mono text-outline">NOTE: not required for the Week 08 quiz.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- VOID SECTION -->
+<section class="md:col-span-5 win95-outset bg-secondary-fixed flex flex-col h-full">
+<div class="title-bar">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined">terminal</span>
+<span class="title-bar-text">SESSION_NOTES.LOG</span>
+</div>
+</div>
+<div class="m-1 bg-white win95-inset grow p-3 min-h-[300px]">
+<ul class="list-none space-y-3">
+<li class="flex items-start gap-2">
+<span class="text-primary-container font-bold">•</span>
+<span class="font-body-md text-body-md"><b>AI shapes the narrative.</b> Designers who embrace new tools gain speed and creative range. AI doesn't replace design, but adaptability is now a core skill.</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="text-primary-container font-bold">•</span>
+<span class="font-body-md text-body-md"><b>Craft is the core of the experience.</b> As tools evolve, designers return to craft, quality, intention, and emotional resonance, as their north star.</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="text-primary-container font-bold">•</span>
+<span class="font-body-md text-body-md"><b>Designers need space to create.</b> Freedom drives happiness, but designers still want clear goals and trust to anchor that freedom.</span>
+</li>
+</ul>
+</div>
+</section>
+</div>
+</main>
+<!-- FLOATING ACTION (90s STYLE) -->
+<div class="fixed bottom-24 right-8 z-40">
+<button class="win95-outset bg-secondary-fixed p-3 flex flex-col items-center gap-1 shadow-xl hover:bg-surface-variant group">
+<span class="material-symbols-outlined text-primary-container text-4xl group-active:translate-x-[1px] group-active:translate-y-[1px]">post_add</span>
+<span class="font-label-mono text-label-mono uppercase font-bold text-on-surface">New Note</span>
+</button>
+</div>
+<!-- BOTTOM NAV BAR -->
+<footer class="fixed bottom-0 left-0 w-full z-50 win95-outset bg-secondary-fixed flex justify-around items-center h-16 shadow-[inset_1px_1px_0px_#fff]">
+<div class="flex flex-col items-center justify-center bg-surface-container-low win95-inset px-6 py-1 text-on-surface">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">desktop_windows</span>
+<span class="font-label-mono text-label-mono">Desktop</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant px-6 py-1 hover:bg-surface-variant cursor-pointer">
+<span class="material-symbols-outlined">folder_open</span>
+<span class="font-label-mono text-label-mono">Projects</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant px-6 py-1 hover:bg-surface-variant cursor-pointer">
+<span class="material-symbols-outlined">assignment</span>
+<span class="font-label-mono text-label-mono">Grades</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant px-6 py-1 hover:bg-surface-variant cursor-pointer">
+<span class="material-symbols-outlined">language</span>
+<span class="font-label-mono text-label-mono">Netscape</span>
+</div>
+</footer>
+<script>
+        // Simple 90s interaction sound simulation placeholder or micro-interactivity
+        document.querySelectorAll('.win95-button').forEach(btn => {
+            btn.addEventListener('click', () => {
+                console.log('Action registered in DESIGN_STUDIO_V1.0');
+            });
+        });
+    </script>
+</body></html>
