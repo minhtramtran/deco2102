@@ -108,7 +108,7 @@
   }
 
   .pl-item .name{ text-transform:lowercase; }
-  .np-title, .lyrics, .response-big, .response-note, .response-last, .cta-button, .play-label, .cover text{ text-transform:lowercase; }
+  .np-title, .response-big, .response-note, .response-last, .cta-button, .play-label, .cover text{ text-transform:lowercase; }
   .panel-head{ text-transform:lowercase; }
   .pl-item > span{ position:relative; z-index:1; }
   .pl-item .num{ width:26px; flex-shrink:0; color: var(--muted); letter-spacing:0.04em; }
@@ -310,7 +310,7 @@
 
       <div class="controls">
         <div class="play-group"><button class="np-play" id="npPlay" type="button" aria-label="Play"><span class="icon" id="npIcon"></span></button><span class="play-label" id="npPlayLabel" aria-hidden="true">Play</span></div>
-        <a href="#" class="cta-button" id="survey-link"><span>Take the survey</span><svg class="arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12.5 H20 M14 6 L20.5 12.5 L14 19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <a href="#" class="cta-button" id="survey-link" target="_blank" rel="noopener noreferrer"><span>Take the survey</span><svg class="arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12.5 H20 M14 6 L20.5 12.5 L14 19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
       </div>
     </section>
 
@@ -321,7 +321,7 @@
   // ---------------------------------------------------------------------
   // PLACEHOLDER LINK — replace with your real survey URL before sharing.
   // ---------------------------------------------------------------------
-  const SURVEY_URL = "https://forms.gle/REPLACE-WITH-YOUR-SURVEY-LINK";
+  const SURVEY_URL = "https://students-say.sydney.edu.au/";
 
   // ---------------------------------------------------------------------
   // RESPONSE RATE — update these two numbers whenever you want.
@@ -450,19 +450,19 @@
   // One word lights up per beat of the Lo-fi Chill track.
   // ---------------------------------------------------------------------
   const tracks = [
-    { title: "Introduction to Interface Design", summary: "What separates good interface design from bad? Learn to spot the difference and explain why." },
-    { title: "Human-Centred Design", summary: "Great interfaces start with real human needs and behaviour. Design around the people using it, not just the screen." },
-    { title: "Iteration & Critique", summary: "Turn a rough idea into something testable. Sketch it, share it, take the critique, and make it better." },
+    { title: "Introduction to Interface Design", summary: "What makes something an interface is the role it plays in connecting a person with a system and supporting a task." },
+    { title: "Human-Centred Design", summary: "Design choices depend on people, tasks and environments. Synthetic users? It depends." },
+    { title: "Iteration & Critique", summary: "Iteration: the next version should be informed by what you learnt from the previous one." },
     { title: "Layout & Hierarchy", summary: "Structure a screen so it is easy to read. Layout and hierarchy show people what matters first." },
     { title: "Information Architecture & Navigation", summary: "Help users find their way through a product. Clear structure and navigation tell people where they are and where to go next." },
     { title: "Visual Language", summary: "Colour, typography and iconography work together as a visual language that gives an interface its clarity and personality." },
     { title: "Design Systems & Component Libraries", summary: "Make consistency repeatable at scale. Shared components and rules keep a product coherent as it grows." },
-    { title: "AI × Interface Design", summary: "Rethinking design work in an AI-assisted world: how AI is changing the way interfaces get designed, and what that means for designers." },
-    { title: "Design Drop-In / Figma Nights", summary: "Bring your work in progress to a drop-in or a Figma night. Build in Figma alongside others and get hands-on feedback while your project keeps moving." },
+    { title: "AI × Interface Design", summary: "Tools come and go. Being good at design is not just about the tools you use. How you think is forever." },
+    { title: "Design Drop-In / Figma Nights", summary: "Well, practice makes perfect." },
     { title: "Usability Testing", summary: "Learn whether a design actually works by watching real people use it. Test, find the problems, then fix them." },
     { title: "Universal Usability", summary: "Design for every kind of user. Thinking about accessibility from the start means more people can use what you make." },
-    { title: "Industry Insights", summary: "A panel discussion on where the industry is headed, plus a chance to meet practitioners and network." },
-    { title: "No Lecture", summary: "No lecture this week. Use the time to polish your design and practise presenting it persuasively and professionally." },
+    { title: "Industry Insights", summary: "Companies and the design industry are evolving, but relevant skills persist, including communication, advocating for design decisions, openness to feedback, adaptability and stakeholder management." },
+    { title: "No Lecture", summary: "Sleep-in and proper breakfast." },
     { title: "Give feedback on DECO2102", summary: "This is the Student Experience of Teaching Survey. Tell us what worked, what didn't, and what we should change next time." }
   ];
 
