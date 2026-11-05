@@ -141,9 +141,9 @@
   }
 
   .cover{
-    flex: 0 0 200px;
-    width:200px;
-    height:200px;
+    flex: 0 0 160px;
+    width:160px;
+    height:160px;
   }
   .cover svg{ width:100%; height:100%; display:block; overflow:visible; }
 
@@ -266,6 +266,11 @@
   .np-play:focus-visible, .cta-button:focus-visible{ outline: 2px solid var(--ink); outline-offset:3px; }
 
   /* ---------- phones: stack the panels, now-playing first ---------- */
+  /* narrower embeds: smaller cover so it still sits beside the title */
+  @media (min-width: 701px) and (max-width: 940px){
+    .cover{ flex-basis:120px; width:120px; height:120px; }
+  }
+
   @media (max-width: 700px){
     body{ padding: 20px 12px; }
     .tablet{ padding: 38px 22px 28px 22px; border-radius: 22px; }
@@ -454,7 +459,7 @@
     { title: "Human-Centred Design", summary: "Design choices depend on people, tasks and environments. Synthetic users? It depends." },
     { title: "Iteration & Critique", summary: "Iteration: the next version should be informed by what you learnt from the previous one." },
     { title: "Layout & Hierarchy", summary: "Structure a screen so it is easy to read. Layout and hierarchy show people what matters first." },
-    { title: "Information Architecture & Navigation", summary: "Help users find their way through a product. Clear structure and navigation tell people where they are and where to go next." },
+    { title: "Information Architecture", summary: "Help users find their way through a product. Clear structure and navigation tell people where they are and where to go next." },
     { title: "Visual Language", summary: "Colour, typography and iconography work together as a visual language that gives an interface its clarity and personality." },
     { title: "Design Systems", summary: "Make consistency repeatable at scale. Shared components and rules keep a product coherent as it grows." },
     { title: "AI × Interface Design", summary: "Tools come and go. Being good at design is not just about the tools you use. How you think is forever." },
@@ -463,7 +468,7 @@
     { title: "Universal Usability", summary: "Design for every kind of user. Thinking about accessibility from the start means more people can use what you make." },
     { title: "Industry Insights", summary: "Companies and the design industry are evolving, but relevant skills persist, including communication, advocating for design decisions, openness to feedback, adaptability and stakeholder management." },
     { title: "No Lecture", summary: "Sleep-in and proper breakfast." },
-    { title: "Give feedback on DECO2102", summary: "This is the Student Experience of Teaching Survey. Tell us what worked, what didn't, and what we should change next time." }
+    { title: "Give feedback on DECO2102", summary: "Tell us what worked, what didn't, and what we should change next time." }
   ];
 
   // ---------------------------------------------------------------------
